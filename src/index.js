@@ -16,10 +16,10 @@ const Film = mongoose.model('Film', {
     trailer_url: String ,
 });
 
-app.get('/', (req, res) => {
-    res.send('Hello World');
-    }
-);
+app.get('/', async(req, res) => {
+    const films = await Film.find();
+    res.send(films);
+});
 
 app.post("/",async(req ,res)=>{
     const film = new Film({
