@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const app = express();
 const port = 3000;
 
+app.use(express.json());
 
 mongoose.connect('mongodb://localhost/test')
     .then(() => console.log('Connected to MongoDB...'))
@@ -19,6 +20,17 @@ app.get('/', (req, res) => {
     res.send('Hello World');
     }
 );
+
+app.post("/",async(req ,res)=>{
+    const film = new Film({
+        title: req.body.title,
+        description: req.body.description,
+        image_url: req.body.image_url,
+        trailer_url: req.body.trailer_url,
+    });
+    await film.save().then(() => console.log('Film saved in the database...'));
+    res.status(201).send(film);
+})
 
 app.listen(3000, () => {
     console.log(`Server is running in http://localhost:${port}`);
