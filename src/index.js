@@ -12,20 +12,49 @@ app.get('/', async(req, res) => {
 });
 
 app.post("/",async(req ,res)=>{
-    const film = new Film({
-        title: req.body.title,
-        description: req.body.description,
-        image_url: req.body.image_url,
-        trailer_url: req.body.trailer_url,
-    });
-    await film.save().then(() => console.log('Film saved in the database...'));
-    res.status(201).send(film);
+    try{
+        const film = new Film({
+            title: req.body.title,
+            description: req.body.description,
+            image_url: req.body.image_url,
+            trailer_url: req.body.trailer_url,
+        });
+        await film.save();
+        res.send({
+            message: "Film created successfully",
+            film: film
+        });
+    }catch(err){
+        res
+        .status(400)
+        .send({
+            message: "Error creating film",
+            error: err.message
+        });
+    }
 })
 
 app.delete("/:id",async(req,res)=>{
     const film = await Film.findByIdAndDelete(req.params.id);
     if(!film) return res.status(404).send("The film with the given ID was not found.");
-    res.send(film);
+    res.send({
+        message: "Film deleted successfully",
+        film: film
+    });
+})
+
+app.put("/:id",async(req,res)=>{
+    const film = await Film.findByIdAndUpdate(req.params.id,{
+        title: req.body.title,
+        description: req.body.description,
+        image_url: req.body.image_url,
+        trailer_url: req.body.trailer_url,
+    },{new:true});
+    if(!film) return res.status(404).send("The film with the given ID was not found.");
+    res.send({
+        message: "Film updated successfully",
+        film: film
+    });
 })
 
 app.listen(3000, () => {
