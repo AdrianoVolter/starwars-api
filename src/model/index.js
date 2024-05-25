@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const Film = mongoose.model('Film', { 
-    title: [
+    title: 
         {
             type: String,
             required: true,
@@ -9,8 +9,8 @@ const Film = mongoose.model('Film', {
             maxlength: 50
         }
     
-    ] ,
-    description: [
+     ,
+    description: 
         {
             type: String,
             required: true,
@@ -18,23 +18,23 @@ const Film = mongoose.model('Film', {
             maxlength: 255
         }
     
-    ] ,
-    image_url: [
+     ,
+    image_url: 
         {
             type: String,
             required: true,
             minlength: 5,
             maxlength: 255
         }
-    ] ,
-    trailer_url: [
+     ,
+    trailer_url: 
         {
             type: String,
             required: true,
             minlength: 5,
             maxlength: 255
         }
-    ]
+    
 });
 
 module.exports = {Film};
